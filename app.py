@@ -29,3 +29,22 @@ if rad=="Home":
     st.text("3. Stress Detection")
     st.text("4. Hate and Offensive Content Detection")
     st.text("5. Sarcasm Detection")
+
+# cleaning and transforming the user input data
+def transform_text(text):
+    text=text.lower()
+    text=nltk.word_tokenize(text)
+    y=[]
+    for i in text:
+        if i.isalnum():
+            y.append(i)
+    text=y[:]
+    y.clear()
+    for i in text:
+        if i not in stopwords.words('english') and i not in string.punctuation:
+            y.append(i)
+    text=y[:]
+    y.clear()
+    ps=PorterStemmer()
+    for i in text:
+        y.append(ps.stem(i))
