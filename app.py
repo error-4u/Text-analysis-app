@@ -48,3 +48,21 @@ def transform_text(text):
     ps=PorterStemmer()
     for i in text:
         y.append(ps.stem(i))
+        return " ".join(y)
+
+# this is for span detection 
+
+tfidf1=TfidfVectorizer(stop_words=sw,max_features=20)
+def transform1(txt1):
+    txt2=tfidf1.fit_transform(txt1)
+    return txt2.toarray()
+
+df1=pd.read_csv("Spam Detection.csv")
+df1.columns=["Label","Text"]
+x=transform1(df1["Text"])
+y=df1["Label"]
+x_train1,x_test1,y_train1,y_test1=train_test_split(x,y,test_size=0.1,random_state=0)
+model1=LogisticRegression()
+model1.fit(x_train1,y_train1)
+
+
