@@ -91,4 +91,30 @@ if rad=="Spam or Ham Detection":
             st.warning("Spam Text!!")
         elif prediction1=="ham":
             st.success("Ham Text!!")
+#Sentiment Analysis Prediction 
+tfidf2=TfidfVectorizer(stop_words=sw,max_features=20)
+def transform2(txt1):
+    txt2=tfidf2.fit_transform(txt1)
+    return txt2.toarray()
 
+df2=pd.read_csv("Sentiment Analysis.csv")
+df2.columns=["Text","Label"]
+x=transform2(df2["Text"])
+y=df2["Label"]
+x_train2,x_test2,y_train2,y_test2=train_test_split(x,y,test_size=0.1,random_state=0)
+model2=LogisticRegression()
+model2.fit(x_train2,y_train2)
+
+#Sentiment Analysis Page
+if rad=="Sentiment Analysis":
+    st.header("Detect The Sentiment Of The Text!!")
+    sent2=st.text_area("Enter The Text")
+    transformed_sent2=transform_text(sent2)
+    vector_sent2=tfidf2.transform([transformed_sent2])
+    prediction2=model2.predict(vector_sent2)[0]
+
+    if st.button("Predict"):
+        if prediction2==0:
+            st.warning("Negetive Text!!")
+        elif prediction2==1:
+            st.success("Positive Text!!")
