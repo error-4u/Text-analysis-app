@@ -118,3 +118,32 @@ if rad=="Sentiment Analysis":
             st.warning("Negetive Text!!")
         elif prediction2==1:
             st.success("Positive Text!!")
+
+#Stress Detection Prediction
+tfidf3=TfidfVectorizer(stop_words=sw,max_features=20)
+def transform3(txt1):
+    txt2=tfidf3.fit_transform(txt1)
+    return txt2.toarray()
+
+df3=pd.read_csv("Stress Detection.csv")
+df3=df3.drop(["subreddit","post_id","sentence_range","syntax_fk_grade"],axis=1)
+df3.columns=["Text","Sentiment","Stress Level"]
+x=transform3(df3["Text"])
+y=df3["Stress Level"].to_numpy()
+x_train3,x_test3,y_train3,y_test3=train_test_split(x,y,test_size=0.1,random_state=0)
+model3=DecisionTreeRegressor(max_leaf_nodes=2000)
+model3.fit(x_train3,y_train3)
+
+#Stress Detection Page
+if rad=="Stress Detection":
+    st.header("Detect The Amount Of Stress In The Text!!")
+    sent3=st.text_area("Enter The Text")
+    transformed_sent3=transform_text(sent3)
+    vector_sent3=tfidf3.transform([transformed_sent3])
+    prediction3=model3.predict(vector_sent3)[0]
+
+    if st.button("Predict"):
+        if prediction3>=0:
+            st.warning("Stressful Text!!")
+        elif prediction3<0:
+            st.success("Not A Stressful Text!!")
