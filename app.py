@@ -147,3 +147,46 @@ if rad=="Stress Detection":
             st.warning("Stressful Text!!")
         elif prediction3<0:
             st.success("Not A Stressful Text!!")
+#Hate & Offensive Content Page
+if rad=="Hate and Offensive Content Detection":
+    st.header("Detect The Level Of Hate & Offensive Content In The Text!!")
+    sent4=st.text_area("Enter The Text")
+    transformed_sent4=transform_text(sent4)
+    vector_sent4=tfidf4.transform([transformed_sent4])
+    prediction4=model4.predict(vector_sent4)[0]
+
+    if st.button("Predict"):
+        if prediction4==0:
+            st.exception("Highly Offensive Text!!")
+        elif prediction4==1:
+            st.warning("Offensive Text!!")
+        elif prediction4==2:
+            st.success("Non Offensive Text!!")
+
+#Sarcasm Detection Prediction
+tfidf5=TfidfVectorizer(stop_words=sw,max_features=20)
+def transform5(txt1):
+    txt2=tfidf5.fit_transform(txt1)
+    return txt2.toarray()
+
+df5=pd.read_csv("Sarcasm Detection.csv")
+df5.columns=["Text","Label"]
+x=transform5(df5["Text"])
+y=df5["Label"]
+x_train5,x_test5,y_train5,y_test5=train_test_split(x,y,test_size=0.1,random_state=0)
+model5=LogisticRegression()
+model5.fit(x_train5,y_train5) 
+
+#Sarcasm Detection Page
+if rad=="Sarcasm Detection":
+    st.header("Detect Whether The Text Is Sarcastic Or Not!!")
+    sent5=st.text_area("Enter The Text")
+    transformed_sent5=transform_text(sent5)
+    vector_sent5=tfidf5.transform([transformed_sent5])
+    prediction5=model5.predict(vector_sent5)[0]
+
+    if st.button("Predict"):
+        if prediction5==1:
+            st.exception("Sarcastic Text!!")
+        elif prediction5==0:
+            st.success("Non Sarcastic Text!!")
