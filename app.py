@@ -14,10 +14,13 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestClassifier
 
-# Designing side bar
+nltk.download('punkt')
+nltk.download('stopwords')
+sw=nltk.corpus.stopwords.words("english")
+
 rad=st.sidebar.radio("Navigation",["Home","Spam or Ham Detection","Sentiment Analysis","Stress Detection","Hate and Offensive Content Detection","Sarcasm Detection"])
 
-# Home page designing
+#Home Page
 if rad=="Home":
     st.title("Complete Text Analysis App")
     st.image("Complete Text Analysis Home Page.jpg")
@@ -30,7 +33,7 @@ if rad=="Home":
     st.text("4. Hate and Offensive Content Detection")
     st.text("5. Sarcasm Detection")
 
-# cleaning and transforming the user input data
+#function to clean and transform the user input which is in raw format
 def transform_text(text):
     text=text.lower()
     text=nltk.word_tokenize(text)
@@ -48,10 +51,9 @@ def transform_text(text):
     ps=PorterStemmer()
     for i in text:
         y.append(ps.stem(i))
-        return " ".join(y)
+    return " ".join(y)
 
-# this is for span detection 
-
+#Spam Detection Prediction
 tfidf1=TfidfVectorizer(stop_words=sw,max_features=20)
 def transform1(txt1):
     txt2=tfidf1.fit_transform(txt1)
@@ -65,20 +67,7 @@ x_train1,x_test1,y_train1,y_test1=train_test_split(x,y,test_size=0.1,random_stat
 model1=LogisticRegression()
 model1.fit(x_train1,y_train1)
 
-tfidf1=TfidfVectorizer(stop_words=sw,max_features=20)
-def transform1(txt1):
-    txt2=tfidf1.fit_transform(txt1)
-    return txt2.toarray()
-
-df1=pd.read_csv("Spam Detection.csv")
-df1.columns=["Label","Text"]
-x=transform1(df1["Text"])
-y=df1["Label"]
-x_train1,x_test1,y_train1,y_test1=train_test_split(x,y,test_size=0.1,random_state=0)
-model1=LogisticRegression()
-model1.fit(x_train1,y_train1)
-
-#Spam Detection Analysis 
+#Spam Detection Analysis Page
 if rad=="Spam or Ham Detection":
     st.header("Detect Whether A Text Is Spam Or Ham??")
     sent1=st.text_area("Enter The Text")
@@ -91,6 +80,7 @@ if rad=="Spam or Ham Detection":
             st.warning("Spam Text!!")
         elif prediction1=="ham":
             st.success("Ham Text!!")
+
 #Sentiment Analysis Prediction 
 tfidf2=TfidfVectorizer(stop_words=sw,max_features=20)
 def transform2(txt1):
@@ -147,6 +137,22 @@ if rad=="Stress Detection":
             st.warning("Stressful Text!!")
         elif prediction3<0:
             st.success("Not A Stressful Text!!")
+
+#Hate & Offensive Content Prediction
+tfidf4=TfidfVectorizer(stop_words=sw,max_features=20)
+def transform4(txt1):
+    txt2=tfidf4.fit_transform(txt1)
+    return txt2.toarray()
+
+df4=pd.read_csv("Hate Content Detection.csv")
+df4=df4.drop(["Unnamed: 0","count","neither"],axis=1)
+df4.columns=["Hate Level","Offensive Level","Class Level","Text"]
+x=transform4(df4["Text"])
+y=df4["Class Level"]
+x_train4,x_test4,y_train4,y_test4=train_test_split(x,y,test_size=0.1,random_state=0)
+model4=RandomForestClassifier()
+model4.fit(x_train4,y_train4)
+
 #Hate & Offensive Content Page
 if rad=="Hate and Offensive Content Detection":
     st.header("Detect The Level Of Hate & Offensive Content In The Text!!")
