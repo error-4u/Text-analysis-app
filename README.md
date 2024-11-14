@@ -1,31 +1,38 @@
+# Text Analysis App
 
-file:///home/vboxuser/Pictures/Screenshots/Screenshot%20from%202024-11-14%2011-39-36.png
+![Screenshot from 2024-11-14 11-39-36](https://github.com/user-attachments/assets/062b3cc6-f9c1-4ba8-a945-1c32a979ad03)
 
 
-Text Analysis App
-This Python-based web application offers several text analysis functionalities, including sentiment analysis, spam detection, stress detection, sarcasm detection, and hate content detection. Built with Streamlit, it provides an interactive interface to process and analyze text data effectively.
+Welcome to the **Text Analysis App**! This intuitive web application, built with **Streamlit**, provides a seamless experience for analyzing text data. It offers a variety of features, from sentiment analysis to spam detection, to help you understand and process written content effectively.
 
-Features:
-Sentiment Analysis: Classify the sentiment of text into positive, negative, or neutral.
-Spam Detection: Identify spam content within input text.
-Stress Detection: Analyze stress levels in written text.
-Sarcasm Detection: Detect sarcastic tones in the content.
-Hate Content Detection: Identify offensive and harmful language in text.
-Requirements:
-Python 3.x
-Streamlit
-Pandas
-Scikit-learn
-Installation:
-Clone this repository:
-bash
-Copy code
-git clone https://github.com/error-4u/Text-analysis-app.git
-Install the required dependencies:
-bash
-Copy code
-pip install -r requirements.txt
-Run the app:
-bash
-Copy code
-streamlit run app.py
+## 🚀 Features
+
+- **Sentiment Analysis**: Classifies the sentiment of text as positive, negative, or neutral.
+- **Spam Detection**: Identifies potential spam content in your text.
+- **Stress Detection**: Analyzes the stress levels in the text you input.
+- **Sarcasm Detection**: Detects sarcasm and subtle tones within the text.
+- **Hate Content Detection**: Identifies offensive and harmful language.
+
+## 🛠️ Requirements
+
+To run this app, you'll need:
+
+- Python 3.x
+- Streamlit
+- Pandas
+- Scikit-learn
+
+## 📦 Installation 
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/error-4u/Text-analysis-app.git
+2. **Navigate into the project folder**
+   ```bash
+   cd Text-analysis-app
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+4. **Run the app**
+   ```bash
+   streamlit run app.py
